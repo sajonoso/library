@@ -1,10 +1,14 @@
 /* 2> nul:
 @echo off
-rem node self executing batch file, simple static file server
 setlocal
 set CURRENTPATH=%CD%
-R:\programs\node\node %CURRENTPATH%\localhttps.cmd
+R:\programs\node\node %0
 goto :eof
+*/
+
+/*
+ DESCRIPTION: Simple static file web server.
+ Under windows this can be made into a self executing batch file by renaming from .js to .cmd
 */
 
 // const HTTP_PORT = 443;
@@ -16,6 +20,7 @@ const path = require('path');
 
 // common mime types first one is the default
 const MIME_TYPES = [
+  {ext: 'bin', type: 'application/octet-stream'}, 
   {ext: 'txt', type: 'text/plain'},
   {ext: 'ks', type: 'text/plain'},
   {ext: 'html', type: 'text/html'},
@@ -40,7 +45,7 @@ openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -subj '//C=AU\ST=Ne
 (linux)
 openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 3650 -subj '/C=AU/ST=New South Wales/L=Sydney/CN=localhost' -passout pass:thepass -keyout localhost.key -out localhost.crt
 
-Set Chrome flag to allow sekf signed certificate
+Set Chrome flag to allow self signed certificate
 chrome://flags/#allow-insecure-localhost
 */
 
@@ -99,12 +104,12 @@ H4NZ2/TOSYrhf+yTiObyAxPI
 -----END PRIVATE KEY-----
 */};
 
-function getText(fn) {
+const getText = function(fn) {
   var rawText = fn.toString()
   return rawText.slice(rawText.indexOf('/*') + 2, rawText.length - 3)
 }
 
-const dateFormat = (dateObj, format) => {
+const dateFormat = function(dateObj, format) {
   if (!format) return ''
 
   const hour24 = dateObj.getHours()
@@ -144,11 +149,11 @@ const router = function (request, response) {
   fs.readFile(filePath, function (error, content) {
     if (error) {
       if (error.code == 'ENOENT') {
-        response.writeHead(404, { 'Content-Type': contentType })
+        response.writeHead(404, { 'Content-Type': 'text/html' })
         response.end('<html><body>Page not found</body></html>', 'utf-8')
       } else {
         response.writeHead(500)
-        response.end('internal error. check with the site admin for error: ' + error.code + ' ..\n')
+        response.end('internal error. error code: ' + error.code + ' ..\n')
         response.end()
       }
     } else {
@@ -166,4 +171,4 @@ if (HTTP_PORT===443) {
   http.createServer(router).listen(HTTP_PORT)
 }
 
-console.log('Server running at ' + (HTTP_PORT === 443 ? 'https' : 'http') + '://localhost:' + HTTP_PORT + '/')
+console.log('Server running at ' + (HTTP_PORT === 443 ? 'HTTPS' : 'HTTP') + '://localhost:' + HTTP_PORT + '/')
