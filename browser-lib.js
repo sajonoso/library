@@ -8,8 +8,8 @@
     headers: { 'content-type': 'text/plain'},
     body: JSON.stringify(gql),
   }
-  ajax.fetch('http://localhost:5000/graphql', opts, function(response, xhr) {
-    console.log(response, xhr)
+  ajax.fetch('http://localhost:5000/graphql', opts, function(res) {
+    console.log(res.response, res.xhr)
   })
 */
 
@@ -31,14 +31,14 @@ const ajax = {
     const async = opts.async === undefined ? true : opts.async
     const method = opts.method ? opts.method : 'GET'
     opts.headers = !opts.headers ? { 'content-type': 'application/json' } : opts.headers
-    var x = ajax.init()
-    x.open(method, url, async)
+    var xhr = ajax.init()
+    xhr.open(method, url, async)
     for (var key in opts.headers) {
-      x.setRequestHeader(key, opts.headers[key])
+      xhr.setRequestHeader(key, opts.headers[key])
     }
-    x.onreadystatechange = function() {
-      if (x.readyState == 4) callback(xhr.status == 200 ? x.response : null, x)
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 4) callback({ response: xhr.status == 200 ? xhr.response : null, xhr })
     }
-    x.send(opts.body ? opts.body : null)
+    xhr.send(opts.body ? opts.body : null)
   },
 }
