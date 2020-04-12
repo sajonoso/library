@@ -23,23 +23,19 @@ const ajax = {
   fetch: (fullurl, opts) => {
     return new Promise((resolve, reject) => {
       const urlObject = url.parse(fullurl)
+      opts.headers = !opts.headers ? { 'content-type': 'application/json' } : opts.headers
       const allOptions = Object.assign(opts, {
         hostname: urlObject.hostname,
         path: urlObject.path,
         port: urlObject.port,
       })
-
       const request = fullurl.toUpperCase().indexOf('HTTPS') === 0 ? https.request : http.request
-
       const req = request(allOptions, xhr => {
         let response = ''
         xhr.setEncoding('utf8')
         xhr.on('data', chunk => (response += chunk))
-        xhr.on('end', () => {
-          resolve({ response, xhr })
-        })
+        xhr.on('end', () => resolve({ response, xhr }))
       })
-
       req.on('error', err => reject({ response: null, err }))
       req.write(opts.body)
       req.end()
