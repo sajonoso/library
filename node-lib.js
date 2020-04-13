@@ -1,20 +1,4 @@
-/*
-  Object for AJAX calls in nodejs
-  example usage:
-
-  const gql = { query: '{userList {uuid\nemail\n}}' }
-  const opts = {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify(gql),
-  }
-  ajax.fetch('http://localhost:5000/graphql', opts).then(res => {
-    const { response, xhr } = res
-    console.log(response, xhr.statusCode)
-  })
-
-*/
-
+//###  Object for AJAX calls in nodejs
 const https = require('https');
 const http = require('http');
 const url = require('url');
@@ -48,3 +32,24 @@ const ajax = {
     })
   },
 }
+/*
+// example usage:
+const query = `{
+  allPeople(last: 3) {
+    people {
+      name
+      gender
+    }
+  }
+}`
+const gql = { query }
+const opts = {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify(gql),
+}
+ajax.fetch('https://swapi-graphql.netlify.com/.netlify/functions/index', opts).then(res => {
+  const { response, xhr } = res
+  console.log(JSON.stringify(JSON.parse(response), null, 2), xhr.statusCode)
+})
+*/
