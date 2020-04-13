@@ -1,3 +1,9 @@
+//### base64 conversion
+function b64decode(input) { return new Buffer.from(input, 'base64').toString('utf8') }
+function b64encode(input) { return new Buffer.from(input).toString('base64') }
+/* */
+
+
 //###  Object for AJAX calls in nodejs
 const https = require('https');
 const http = require('http');
