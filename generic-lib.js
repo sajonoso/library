@@ -1,11 +1,9 @@
 /*
-  This file contains userful functions that can operate across browser and nodejs environments
+  This file contains useful functions that can operate across browser and nodejs environments
 */
 
 
-/*
-  function to generate a v4 uuid
-*/
+// function to generate a v4 uuid
 function create_UUID() {
   var dt = new Date().getTime();
   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
