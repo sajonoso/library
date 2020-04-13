@@ -31,13 +31,19 @@ const ajax = {
       })
       const request = fullurl.toUpperCase().indexOf('HTTPS') === 0 ? https.request : http.request
       const req = request(allOptions, xhr => {
+         if (xhr.statusCode === 301 || xhr.statusCode === 302) {
+          ajax.fetch(xhr.headers.location, opts)
+            .then(res2 => resolve(res2))
+            .catch(err2 => reject({response:null, err2}))
+          return
+        }
         let response = ''
         xhr.setEncoding('utf8')
         xhr.on('data', chunk => (response += chunk))
         xhr.on('end', () => resolve({ response, xhr }))
       })
       req.on('error', err => reject({ response: null, err }))
-      req.write(opts.body)
+      if (opts.body) req.write(opts.body)
       req.end()
     })
   },
