@@ -1,18 +1,4 @@
-/*
-  Object for AJAX calls in the browser
-  example usage:
-
-  const gql = { query: '{userList {uuid\nemail\n}}', }
-  const opts = {
-    method: 'POST',
-    headers: { 'content-type': 'text/plain'},
-    body: JSON.stringify(gql),
-  }
-  ajax.fetch('http://localhost:5000/graphql', opts, function(res) {
-    console.log(res.response, res.xhr)
-  })
-*/
-
+// ### Object for AJAX calls in the browser
 const ajax = {
   init: function() {
     let request = window.XMLHttpRequest ? new XMLHttpRequest() : null
@@ -42,3 +28,23 @@ const ajax = {
     xhr.send(opts.body ? opts.body : null)
   },
 }
+/*
+// example usage:
+const query = `{
+  allPeople(last: 3) {
+    people {
+      name
+      gender
+    }
+  }
+}`
+const gql = { query }
+const opts = {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify(gql),
+}
+ajax.fetch('https://swapi-graphql.netlify.com/.netlify/functions/index', opts, function(res) {
+  console.log(JSON.stringify(JSON.parse(res.response), null, 2), res.xhr)
+})
+*/
