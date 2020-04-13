@@ -1,3 +1,9 @@
+// ### base64 conversion
+const b64encode = window.btoa
+const b64decode = window.atob
+/* */
+
+
 // ### Object for AJAX calls in the browser
 const ajax = {
   init: function() {
