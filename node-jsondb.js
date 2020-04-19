@@ -168,7 +168,7 @@ const dbMethods = {
 };
 
 // Uncomment below to test the library
-
+/*
 const print = console.log;
 const jprint = obj => console.log(JSON.stringify(obj, null, 2));
 
@@ -246,3 +246,4 @@ function testDB() {
 }
 
 testDB();
+*/
