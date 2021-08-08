@@ -3,10 +3,15 @@ This script helps convert remote css font and icon resources into local
 and generates a script to download the resources locally.
 
 Disabling HTTP requests with the following code:
-    XMLHttpRequest = function(){}
-    XMLHttpRequest.prototype = {
-        open: function(){},
-        send: function(){},
+    var realOpen = XMLHttpRequest.prototype.open;
+    var realSend = XMLHttpRequest.prototype.send;
+     XMLHttpRequest.prototype.open = function(method,url,options) {
+      console.log('>> OPENING:', method, url, options);
+       return realOpen.apply(this, arguments);
+    };
+    XMLHttpRequest.prototype.send = function(req) {
+      console.log('>> SENDING:', req);
+      // return realSend.apply(this, arguments);
     };
 may also help remove network requests
 */
